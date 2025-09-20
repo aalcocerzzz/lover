@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Flores Amarillas</title>
   <style>
     body {
@@ -38,14 +39,14 @@
     /* --- Flor con pétalos y centro --- */
     .flower {
       position: absolute;
-      width: 60px;
-      height: 60px;
+      width: clamp(50px, 12vw, 80px); /* ajustable a pantalla */
+      height: clamp(50px, 12vw, 80px);
     }
 
     .petal {
       position: absolute;
-      width: 30px;
-      height: 30px;
+      width: 50%;
+      height: 50%;
       background: yellow;
       border-radius: 50%;
       top: 50%;
@@ -62,8 +63,8 @@
 
     .center {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 30%;
+      height: 30%;
       background: white;
       border-radius: 50%;
       top: 50%;
@@ -74,8 +75,8 @@
 
     .stem {
       position: absolute;
-      width: 4px;
-      height: 80px;
+      width: 5px;
+      height: clamp(60px, 12vh, 90px); /* tallo escalable */
       background: linear-gradient(to bottom, #4A7C2A, #2D5016);
       top: 50%;
       left: 50%;
@@ -103,8 +104,8 @@
     /* --- Estrella fugaz --- */
     .shooting-star {
       position: absolute;
-      width: 200px; /* más larga */
-      height: 3px;  /* más gruesa */
+      width: 200px;
+      height: 3px;
       background: linear-gradient(90deg, white, transparent);
       opacity: 0.9;
       transform: rotate(-30deg);
@@ -123,7 +124,7 @@
       width: 100%;
       text-align: center;
       color: #FFD700;
-      font-size: 28px;
+      font-size: clamp(20px, 5vw, 32px);
       font-weight: bold;
       opacity: 0;
       animation: fadeIn 0.5s ease forwards;
@@ -140,10 +141,18 @@
       bottom: 10px;
       width: 100%;
       text-align: center;
-      color: white; /* blanca */
-      font-size: 14px;
+      color: white;
+      font-size: clamp(12px, 3.5vw, 18px); /* escalable */
       font-style: italic;
-      opacity: 0.8;
+      opacity: 0.85;
+    }
+
+    /* --- Ajustes extra para pantallas pequeñas --- */
+    @media (max-width: 600px) {
+      .flower { width: 70px; height: 70px; }
+      .stem { height: 90px; }
+      .message { font-size: 22px; }
+      .watermark { font-size: 16px; }
     }
   </style>
 </head>
@@ -165,8 +174,8 @@
 
   // --- flores con pétalos y tallo ---
   const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 1.6; // 🔽 más abajo
-  const radius = 120;
+  const centerY = window.innerHeight / 1.6;
+  const radius = Math.min(120, window.innerWidth / 4); // ajusta para móvil
   const flowerCount = 7;
 
   function createFlower(x, y) {
